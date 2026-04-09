@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import axios from 'axios'
 import { motion } from 'framer-motion'
 import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
@@ -82,26 +82,7 @@ function App() {
     }
   }, [mergedRows])
 
-  useEffect(() => {
-    if (!autoDetection || !logs.length) {
-      return
-    }
-    runAnalysis()
-  }, [autoDetection, logs])
-
-  async function generateLogs() {
-    try {
-      setLoading(true)
-      setSelectedLog(null)
-      const { data } = await api.post('/generate-logs', { count: 30 })
-      setLogs(data)
-      setAnalyzedRows([])
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  async function runAnalysis() {
+  const runAnalysis = useCallback(async () => {
     if (!logs.length) {
       return
     }
@@ -115,7 +96,26 @@ function App() {
     } finally {
       setAnalyzing(false)
     }
-  }
+  }, [logs, selectedLog])
+
+  useEffect(() => {
+    if (!autoDetection || !logs.length) {
+      return
+    }
+    runAnalysis()
+  }, [autoDetection, logs, runAnalysis])
+
+  const generateLogs = useCallback(async () => {
+    try {
+      setLoading(true)
+      setSelectedLog(null)
+      const { data } = await api.post('/generate-logs', { count: 30 })
+      setLogs(data)
+      setAnalyzedRows([])
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-cyber-bg">
