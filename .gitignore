@@ -46,3 +46,5 @@ next-env.d.ts
 /frontend/dist
 /backend/.venv
 /backend/soc.db
+__pycache__/
+*.pyc
