@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, sans-serif;
+  background: radial-gradient(circle at top, #0f172a 0%, #020617 45%, #000000 100%);
+  color: #e2e8f0;
+}
+
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.glass {
+  @apply rounded-2xl border border-cyan-300/20 bg-cyber-surface backdrop-blur-xl;
+}
+
+.status-safe {
+  @apply text-emerald-300;
+}
+
+.status-suspicious {
+  @apply text-amber-300;
+}
+
+.status-attack {
+  @apply text-rose-300;
+}
